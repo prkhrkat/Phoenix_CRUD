@@ -48,6 +48,8 @@ defmodule MyAppWeb.Router do
     # pipe_through [:browser, :protected]
 
     get "/", PageController, :index
+    resources "/topics", TopicController
+    resources "/comments", CommentController
   end
 
   # Other scopes may use custom stacks.

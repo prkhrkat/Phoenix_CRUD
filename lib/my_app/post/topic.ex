@@ -12,8 +12,9 @@ defmodule MyApp.Post.Topic do
   end
 
   @doc false
-  def changeset(topic, attrs) do
-    topic
+  def changeset(_topic, current_user, attrs) do
+    IO.inspect current_user
+    Ecto.build_assoc(current_user, :topics)
     |> cast(attrs, [:title, :content, :user_id])
     |> validate_required([:title, :content, :user_id])
   end

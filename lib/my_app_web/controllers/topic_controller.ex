@@ -10,15 +10,18 @@ defmodule MyAppWeb.TopicController do
   end
 
   def new(conn, _params) do
-    changeset = Post.change_topic(%Topic{})
+    current_user = conn.assigns.current_user
+    changeset = Post.change_topic(%Topic{}, current_user)
     IO.puts("XXxxxxxxxxxxx")
     IO.inspect(changeset)
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"topic" => topic_params}) do
-    IO.inspect(conn)
-    case Post.create_topic(topic_params) do
+    # IO.inspect(conn)
+    current_user = conn.assigns.current_user
+    IO.inspect(current_user)
+    case Post.create_topic(current_user, topic_params) do
       {:ok, topic} ->
         conn
         |> put_flash(:info, "Topic created successfully.")
@@ -36,14 +39,16 @@ defmodule MyAppWeb.TopicController do
 
   def edit(conn, %{"id" => id}) do
     topic = Post.get_topic!(id)
-    changeset = Post.change_topic(topic)
+    current_user = conn.assigns.current_user
+    changeset = Post.change_topic(topic, current_user)
     render(conn, "edit.html", topic: topic, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "topic" => topic_params}) do
     topic = Post.get_topic!(id)
+    current_user = conn.assigns.current_user
 
-    case Post.update_topic(topic, topic_params) do
+    case Post.update_topic(topic, current_user, topic_params) do
       {:ok, topic} ->
         conn
         |> put_flash(:info, "Topic updated successfully.")

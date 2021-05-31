@@ -49,10 +49,9 @@ defmodule MyApp.Post do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_topic(attrs \\ %{}) do
-    IO.inspect(attrs)
+  def create_topic(current_user,attrs \\ %{}) do
     %Topic{}
-    |> Topic.changeset(attrs)
+    |> Topic.changeset(current_user, attrs)
     |> Repo.insert()
   end
 
@@ -68,9 +67,9 @@ defmodule MyApp.Post do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_topic(%Topic{} = topic, attrs) do
+  def update_topic(%Topic{} = topic, current_user, attrs) do
     topic
-    |> Topic.changeset(attrs)
+    |> Topic.changeset(current_user, attrs)
     |> Repo.update()
   end
 
@@ -99,7 +98,7 @@ defmodule MyApp.Post do
       %Ecto.Changeset{data: %Topic{}}
 
   """
-  def change_topic(%Topic{} = topic, attrs \\ %{}) do
-    Topic.changeset(topic, attrs)
+  def change_topic(%Topic{} = topic, current_user, attrs \\ %{}) do
+    Topic.changeset(topic, current_user, attrs)
   end
 end

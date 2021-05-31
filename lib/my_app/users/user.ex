@@ -7,6 +7,7 @@ defmodule MyApp.Users.User do
 
 
   schema "users" do
+    has_many :topics, MyApp.Post.Topic
     pow_user_fields()
 
     timestamps()
